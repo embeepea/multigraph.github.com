@@ -14,7 +14,7 @@
 .jumbotron p.lead {
     text-indent: 0.5cm;
 }
-.col-lg-4 h1, .col-lg-4 h2, .col-lg-4 p {
+.col-xs-6, .col-md-4 {
     /* center the 3 vector graphics */
     text-align: center;
 }
