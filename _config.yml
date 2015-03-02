@@ -1,4 +1,3 @@
 name: Multigraph
 markdown: html
 markdown: rdiscount
-highlighter: true
