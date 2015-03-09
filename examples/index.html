@@ -1,14 +1,39 @@
 ---
-title: Examples
+title: Examples - acis-static.xml
 examples: selected
+example-acis-static: selected
+mugl: acis-static.xml
+layout: master
 ---
 
-{% include header.html %}
-{% include content.html %}
+<script type="text/javascript" src="/js/examples.js"></script>
+<h2>Examples</h2>
+<div class="example-nav">
+  <ul>
+  </ul>
+</div>
 
-{% include example-menu.html %}
-        <div class="example-content">
-            <p class="example-intro-text">The list to the left is a collection of MUGL files defining graphs that test and demonstrate various aspects of Multigraph. You can view each file, and its associated graph, by clicking on the filename. Real examples contain actual data used to illustrate and demonstrate Multigraph.</p>
-        </div>
+<!-- Mobile support: -->
+<div class="example-mobile-nav">
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Real Examples <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+      </ul>
+    </div>
+  </div>
+</div>
 
-{% include end.html %}
+<div class="example-content">
+    
+  <h3 class="example-title">{{page.mugl}}</h3>
+
+  <div class="example-graph"></div>
+
+  <span class="example-download">Download mugl: <a href="graphs/{{page.mugl}}">{{page.mugl}}</a></span>
+  <span class="example-open"><a href="/tester/?muglurl=/examples/graphs/{{page.mugl}}">Open in Tester</a></span>
+
+  <pre class="example prettyprint">
+  </pre>
+
+</div>

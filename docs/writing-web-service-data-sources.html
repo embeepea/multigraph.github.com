@@ -2,12 +2,8 @@
 title: Writing Web Service Data Sources
 docs: selected
 permalink: /docs/writing-web-service-data-sources/
+layout: master
 ---
-
-{% include header.html %}
-{% include inc.prettify.html %}
-{% include content.html %}
-
 
 <h2 id="writing-web-service-data-sources">Writing Web Service Data Sources</h2>
 <hr>
@@ -43,5 +39,3 @@ permalink: /docs/writing-web-service-data-sources/
 <p>In this example, Multigraph is drawing a plot that shows 6 data values, but in order to be able to completely draw that plot, it actually needs 2 additional data values, so the request includes a buffer of <code>1</code> on either side of the requested interval, and the response includes 8 values rather than 6. If you are wondering why the buffering can't be accomplished by simply having Multigraph request an 8 hour interval in the first place, and eliminate the need for the extra <code>Bmin</code> and <code>Bmax</code> request parameters altogether, the answer is that Multigraph does not know that the data freqency is hourly. When Multigraph plots data from a web service, it relies completely on the web service to provide the data, and makes no assumptions about how much data is present in a particular interval. It is up to the web service to know that the data occurs hourly, or every 5 minutes, or daily, etc.</p>
 
 <br>
-
-{% include end.html %}

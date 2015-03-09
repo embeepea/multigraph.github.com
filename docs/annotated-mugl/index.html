@@ -1,15 +1,14 @@
 ---
 title: Annotated MUGL 
 docs: selected
+layout: master
 ---
 
-{% include header.html %}
-{% include inc.multigraph.html %}
     <script type="text/javascript">$ = window.multigraph.jQuery;</script>
     <script type="text/javascript" src="/js/jquery.tooltip.min.js"></script>
     <script type="text/javascript" src="/js/annotated-mugl.js"></script>
     <link rel="stylesheet" href="/css/annotated-mugl.css" media="screen"></script>
-{% include content.html %}
+
 
         <h3>Annotated MUGL File</h3>
         <p>This is an interactive MUGL file which is annotated with comments documenting every element and attribute in the MUGL specification. Click on an element to expand it; hover over an attribute to see more documentation for it. You can download this entire annotated MUGL file, as a valid XML document, here: <a href="annotated-mugl.xml">annotated-mugl.xml</a>. Note that although this file is a valid XML document, and it conveys the structure of MUGL by example, it is not actually a valid MUGL file; don't try loading this file into Multigraph. It is intended for documentation of the MUGL specification only. A formal XSD document that defines the MUGL specification is <a href="../mugl-schema">also available</a>.</p>
@@ -763,7 +762,3 @@ docs: selected
   <span class="tagprefix"></span><span class="nt">&lt;/throttle&gt;</span></span></span>
 <span class="nt">&lt;/mugl&gt;</span>
 </pre>
-
-        <script src="/js/bootstrap.min.js"></script>
-    </body>
-</html>

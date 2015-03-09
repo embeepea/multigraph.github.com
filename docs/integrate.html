@@ -2,11 +2,8 @@
 title: Integrate
 docs: selected
 permalink: /docs/integrate/
+layout: master
 ---
-
-{% include header.html %}
-{% include inc.prettify.html %}
-{% include content.html %}
 
         <h2>Integrating Multigraph</h2>
         <p>Multigraph can be either implemented by externally linking to the <a href="/download/multigraph-min.js">multigraph-min.js</a> file, or by internally hosting it and including it yourself in your site.</p>
@@ -29,5 +26,3 @@ permalink: /docs/integrate/
             <li>To display a Multigraph onto your page, include the XML file by the following code below. Note that the <code>data-width</code> and <code>data-height</code> tags can be modified to your preference. Additionally, these attributes can be dropped if you create CSS counterparts.
             <p><pre class="prettyprint">&lt;div class="multigraph" data-src="<strong>XMLFileHere</strong>" data-width="500" data-height="400"&gt;&lt;/div&gt;</pre></p></li>
         </ul>
-
-{% include end.html %}
