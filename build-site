@@ -1,4 +1,0 @@
-#! /usr/bin/perl
-
-system("./build-examples");
-system("(cd docs/annotated-mugl ; ./make > index.html)");
