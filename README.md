@@ -65,9 +65,9 @@ jekyll serve
 Give this command in a terminal that you can leave running while you
 work; this command generates a copy of the site in the `_site`
 subdirectory, and starts a local web server running on port 4000.
-To view the site, load the URL http://localhost:4000 in a browser.
+To view the site, load the URL [http://localhost:4000](http://localhost:4000) in a browser.
 (Ignore the message that Jekyll prints telling you that the
-server address is http://0.0.0.0:4000.)
+server address is '0.0.0.0'.)
 
 If you leave this `jekyll serve` process running, then whenever you
 make a change to any of the site files, jekyll will regenerate
