@@ -220,7 +220,6 @@ sys("cp lib/js-multigraph/spec/graphs/graphs.json examples/graphs");
 # copy the mugl-schema xsd file for this release into place
 #
 message("copying lib/js-multigraph/mugl-schema/mugl.xsd");
-sys("cp lib/js-multigraph/mugl-schema/mugl.xsd _includes");
 sys("cp lib/js-multigraph/mugl-schema/mugl.xsd docs");
 
 #
