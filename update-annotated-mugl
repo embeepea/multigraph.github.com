@@ -1,5 +1,11 @@
 #! /usr/bin/perl
 
+# Updates `docs/annotated-mugl/index.html` by regenerating it from
+# `docs/annotated-mugl/annotated-mugl.xml`.
+#
+# You do not normally need to run this script directly; it is run
+# automatically by the `update-site` script when you run that script.
+
 sub escape_entities {
     my $s = shift;
     $s =~ s/</&lt;/g;
