@@ -1,6 +1,4 @@
-
-
-# How to Work on this multigraph.org Web Site Code
+# multigraph.org Web Site
 
 This repository contains the source code for the http://multigraph.org web site.  
 
@@ -15,26 +13,28 @@ this repository were created today it would need to be named
 *multigraph.github.io*.  Also note that the site actually lives at the
 URL http://multigraph.org, but the URLs http://multigraph.github.com
 and http://multigraph.github.io are both aliases for this.  So a user
-who types http://multigraph.github.com, or http://multigraph.github.io
+who types http://multigraph.github.com or http://multigraph.github.io
 into a browser will end up at http://multigraph.org.
 
 The site uses Github Pages for hosting, and uses the Jekyll static
 site generator. See
-https://help.github.com/articles/using-jekyll-with-pages for general
+https://help.github.com/articles/using-jekyll-with-pages for more detailed
 instructions on how to work with a Github Pages site that uses Jekyll.
 
 ## Setting Up a Working Copy
 
 To set up a working local copy of this site that you can use for
-making and previewing changes before pushing them to the public site,
+making and previewing changes locally before pushing them to the public site,
 first make sure you have a computer with the following required software
 installed:
 
-* Perl; this is only necessary if you need to run the `update-site` script to
+* git
+
+* perl; this is only necessary if you need to run the `update-site` script to
   update site content based on new commits or new releases in
   js-multigraph; see below for details.
 
-* Jekyll; see https://help.github.com/articles/using-jekyll-with-pages
+* jekyll; see https://help.github.com/articles/using-jekyll-with-pages
   for instructions on installing Jekyll. Jekyll depends on both Ruby
   and Bundler, so you will need to install them as well; the instructions
   on Github explain how to do this.
@@ -48,8 +48,10 @@ Then, to set up a working local copy of the site, follow these steps:
    
 1. Install the necessary gems
    ```bash
+   cd multigraph.github.com
    bundle install
    ```
+
 The above steps are only needed once, to initialize a new local
 copy of the site.
 
