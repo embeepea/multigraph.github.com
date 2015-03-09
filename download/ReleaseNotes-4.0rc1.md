@@ -1,16 +1,20 @@
 ---
-download: selected
-title: Release Notes for version 4.0rc1
-layout: release-notes
-version: 4.0rc1
+siteroot: ..
+layout: master
+menu-download: selected
+title: Multigraph - Release Notes for version 4.0rc1
 ---
+Release Notes
+=============
 
-### Version 4.0rc1 (2012-12-06)
+Version 4.0rc1 (2012-12-06)
+---------------------------
 
 * Another test release, mostly just checking to make sure that release system
   works correctly with version tags containing a string suffix.
 
-### Version 3.90 (2012-12-03)
+Version 3.90 (2012-12-03)
+-------------------------
 
 * This is a test release whose purpose is just to make sure that the release
   build/deploy process is working properly.  It's a real release, in the sense
