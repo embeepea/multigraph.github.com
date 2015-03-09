@@ -2,8 +2,17 @@
 title: Mugl File Reference
 docs: selected
 permalink: /docs/mugl-reference/
-layout: scrollspy
+layout: master
 ---
+
+<script>
+$(document).ready(function() {
+console.log('fluh ha');
+console.log($('body'));
+console.log($('body').scrollspy);
+  $('body').scrollspy({ target: '.sidebar-menu', offset: 50 });
+});
+</script>
 
 <div class="row">
 

@@ -127,13 +127,13 @@ foreach my $release (@releases) {
         printf("    WARNING: lib/js-multigraph/build/multigraph-min.js not found for this release\n");
     }
 
-    if (-f "lib/js-multigraph/build/multigraph-standalone.js") {
-        printf("    lib/js-multigraph/build/multigraph-standalone.js      => ./download/multigraph-standalone-${release_number}.js\n");
-        sys("cp lib/js-multigraph/build/multigraph-standalone.js ./download/multigraph-standalone-${release_number}.js");
+    if (-f "lib/js-multigraph/build/multigraph-nojq.js") {
+        printf("    lib/js-multigraph/build/multigraph-nojq.js      => ./download/multigraph-nojq-${release_number}.js\n");
+        sys("cp lib/js-multigraph/build/multigraph-nojq.js ./download/multigraph-nojq-${release_number}.js");
     }
-    if (-f "lib/js-multigraph/build/multigraph-standalone-min.js") {
-        printf("    lib/js-multigraph/build/multigraph-standalone-min.js      => ./download/multigraph-standalone-min-${release_number}.js\n");
-        sys("cp lib/js-multigraph/build/multigraph-standalone-min.js ./download/multigraph-standalone-min-${release_number}.js");
+    if (-f "lib/js-multigraph/build/multigraph-nojq-min.js") {
+        printf("    lib/js-multigraph/build/multigraph-nojq-min.js      => ./download/multigraph-nojq-min-${release_number}.js\n");
+        sys("cp lib/js-multigraph/build/multigraph-nojq-min.js ./download/multigraph-nojq-min-${release_number}.js");
     }
 
 
@@ -157,8 +157,8 @@ $latest_release_number = $latest_release_tag;
 $latest_release_number =~ s/^v//;
 sys("cp ./download/multigraph-${latest_release_number}.js ./download/multigraph.js");
 sys("cp ./download/multigraph-min-${latest_release_number}.js ./download/multigraph-min.js");
-sys("cp ./download/multigraph-standalone-${latest_release_number}.js ./download/multigraph-standalone.js");
-sys("cp ./download/multigraph-standalone-min-${latest_release_number}.js ./download/multigraph-standalone-min.js");
+sys("cp ./download/multigraph-nojq-${latest_release_number}.js ./download/multigraph-nojq.js");
+sys("cp ./download/multigraph-nojq-min-${latest_release_number}.js ./download/multigraph-nojq-min.js");
 
 #
 # leave the lib/js-multigraph repo with the latest tag checked out
