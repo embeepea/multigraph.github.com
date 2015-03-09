@@ -14,8 +14,15 @@ $(document).ready(function() {
             $("table.release-table tr.release").remove();
             releases.forEach(function(release) {
                 $("table.release-table").append(
-                    $(sprintf("<tr class='release'><td>%s</td><td>%s</td><td class='notes'><a href='%s'>Read</a></td><td><a href='/download/%s'>%s</a></td></tr>",
-                              release.number, release.date, release.notes, release.js, release.js))
+                    $(("<tr class='release'>"
+                      + sprintf("<td>%s</td>", release.number)
+                      + sprintf("<td>%s</td>", release.date)
+                      + sprintf("<td class='notes'><a href='%s'>Read</a></td>", release.notes)
+                      + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download_min,release.download_min)
+                      + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download,release.download)
+                      + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download_nojq_min,release.download_nojq_min)
+                      + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download_nojq,release.download_nojq)
+                      + "</tr>"))
                 );
             });
 
@@ -31,20 +38,49 @@ $(document).ready(function() {
 </script>
 
         <h2>Download Multigraph</h2>
-<p>The most recent release of Multigraph is version <span class="latest-version-number"></span>, released <span class="latest-version-date"></span>.</p>
-        <p>Here you may download the file(s) that add Multigraph support to your site. If you do not want to host these files locally, you may simply include them as explained on our <a href="/docs/integrate">integration page</a>.</p>
 
-            <a class="btn btn-primary btn-sm" href="multigraph-min.js"><i class="fa fa-download"></i> multigraph-min.js</a>
-            <a class="btn btn-primary btn-sm" href="multigraph.js"><i class="fa fa-download"></i> multigraph.js</a>
+<p>
+Multigraph uses JQuery, and the full version of the Multigraph code includes a
+copy of JQuery.  Starting with version 5.0.1, a separate Multigraph
+file is available that does not include JQuery.  If you use this
+"nojq" version of Multigraph, you must load JQuery into your page
+before you load Multigraph.
+</p>
+
+<p>
+The most recent release of Multigraph is
+version <span class="latest-version-number"></span>,
+released <span class="latest-version-date"></span>.
+You may download the full version or the "nojq" version
+of this release using the following buttons:
+</p>
+
+<p>
+<a class="btn btn-primary btn-sm" href="multigraph-min.js"><i class="fa fa-download"></i> multigraph-min.js (Including JQuery)</a>
+<a class="btn btn-primary btn-sm" href="multigraph-nojq-min.js"><i class="fa fa-download"></i> multigraph-nojq-min.js (Without JQuery)</a>
+</p>
+
+<p>
+Note that you do not necessarily have to download Multigraph in order to use it on your site. If you do not want
+to host these files locally, you may simply include them as explained on the <a href="/docs/integrate">integration page</a>.
+</p>
+
 
             <br />
-            <h3>Release Notes</h3>
+<p></p>
         <table class="release-table">
             <tr>
-                <th>Version</th>
-                <th>Date Released</th>
-                <th>Release Notes</th>
-                <th>Download</th>
+                <th rowspan="2">Version</th>
+                <th rowspan="2">Date Released</th>
+                <th rowspan="2">Release Notes</th>
+                <th colspan="2">Including JQuery</th>
+                <th colspan="2">Without JQuery</th>
+            </tr>
+            <tr>
+                <th>compressed</th>
+                <th>uncompressed</th>
+                <th>compressed</th>
+                <th>uncompressed</th>
             </tr>
             </table>
 

@@ -83,22 +83,6 @@ close(TAGS);
 #
 @releases = sort { $b->{date} cmp $a->{date} } @releases;
 
-
-
-@rs = ();
-foreach my $release (@releases) {
-    $release_tag    = $release->{tag};
-    $release_date   = $release->{date};
-    $release_number = $release_tag;
-    $release_number =~ s/^v//;
-    push(@rs, sprintf('{"number":"%s","date":"%s","notes":"%s","js":"%s"}',
-                      $release_number, $release_date, "ReleaseNotes-${release_number}.md", "multigraph-${release_number}.js"));
-}
-
-open(OUT, ">download/releases.json");
-printf(OUT "[%s]", join(",", @rs));
-close(OUT);
-
 #
 # copy built js files, and ReleaseNotes files, for each release, from js-multigraph to downloads
 #
@@ -146,6 +130,42 @@ foreach my $release (@releases) {
         printf("    WARNING: lib/js-multigraph/ReleaseNotes.md not found for this release\n");
     }
 }
+
+sub file_exists {
+    # takes a dir, and a file (both strings), and checks to see if the given file
+    # exists in the dir. If it does, returns the file argument.  If it does not
+    # exist, returns the empty string.
+    my $dir = shift;
+    my $file = shift;
+    if (-f "$dir/$file") { return $file; }
+    return "";
+}
+
+@rs = ();
+foreach my $release (@releases) {
+    $release_tag    = $release->{tag};
+    $release_date   = $release->{date};
+    $release_number = $release_tag;
+    $release_number =~ s/^v//;
+    $release_notes  = "ReleaseNotes-${release_number}.md";
+
+    $download_min      = file_exists("download", sprintf("multigraph-min-%s.js", $release_number));
+    $download          = file_exists("download", sprintf("multigraph-%s.js", $release_number));
+    $download_nojq_min = file_exists("download", sprintf("multigraph-nojq-min-%s.js", $release_number));
+    $download_nojq     = file_exists("download", sprintf("multigraph-nojq-%s.js", $release_number));
+    push(@rs, sprintf('{"number":"%s","date":"%s","notes":"%s","download_min":"%s","download":"%s","download_nojq_min":"%s","download_nojq":"%s"}',
+                      $release_number, $release_date, $release_notes,
+                      $download_min,
+                      $download,
+                      $download_nojq_min,
+                      $download_nojq,
+         ));
+}
+
+open(OUT, ">download/releases.json");
+printf(OUT "[%s]", join(",", @rs));
+close(OUT);
+
 
 #
 # make copies of most recent release files as multigraph.js, multigraph-min.js

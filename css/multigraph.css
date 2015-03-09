@@ -191,6 +191,10 @@ table.release-table {
     width: auto;
     border-collapse: collapse;
 }
+table.release-table th {
+  background: #ffffff;
+  text-align: center;
+}
 table.release-table td, table.release-table th {
     padding: 6px 10px 6px 10px;
     border: 1px solid gray;
