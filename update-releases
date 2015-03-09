@@ -36,12 +36,12 @@ EOF
     close(OUT);
 }
 
-if (! `which yuidoc`) {
-    die "yuidoc is not installed on this system; update-releases requires it.\n";
-}
-if (! `which ant`) {
-    die "ant is not installed on this system; update-releases requires it.\n";
-}
+#if (! `which yuidoc`) {
+#    die "yuidoc is not installed on this system; update-releases requires it.\n";
+#}
+#if (! `which ant`) {
+#    die "ant is not installed on this system; update-releases requires it.\n";
+#}
 if (! `which git`) {
     die "git is not installed on this system; update-releases requires it.\n";
 }
@@ -49,15 +49,17 @@ if (! `which git`) {
 #
 # make sure js-multigraph repo in lib/js-multigraph has latest commits
 #
-message("updating lib/js-multigraph with the latest commits");
-sys("(cd lib/js-multigraph ; git checkout master; git pull )");
+#message("updating lib/js-multigraph with the latest commits");
+#
+message("NOT!!!   updating lib/js-multigraph with the latest commits");
+#sys("(cd lib/js-multigraph ; git checkout master; git pull )");
 
 #
 # save copy of LICENSE.txt file from HEAD of master, just in case most
 # recent release doesn't have one; we can get rid of this once we eliminate
 # all releases prior to addition of LICENSE.txt file to js-multigraph
 #
-sys("cp lib/js-multigraph/LICENSE.txt /tmp");
+sys("cp lib/js-multigraph/LICENSE /tmp/LICENSE.txt");
 
 #
 # build list of release tags by running ./lib/js-multigraph/tags script
@@ -98,12 +100,24 @@ foreach my $release (@releases) {
     } else {
         printf("    WARNING: lib/js-multigraph/build/multigraph.js not found for this release\n");
     }
+
     if (-f "lib/js-multigraph/build/multigraph-min.js") {
         printf("    lib/js-multigraph/build/multigraph-min.js  => ./download/multigraph-min-${release_number}.js\n");
         sys("cp lib/js-multigraph/build/multigraph-min.js ./download/multigraph-min-${release_number}.js");
     } else {
         printf("    WARNING: lib/js-multigraph/build/multigraph-min.js not found for this release\n");
     }
+
+    if (-f "lib/js-multigraph/build/multigraph-standalone.js") {
+        printf("    lib/js-multigraph/build/multigraph-standalone.js      => ./download/multigraph-standalone-${release_number}.js\n");
+        sys("cp lib/js-multigraph/build/multigraph-standalone.js ./download/multigraph-standalone-${release_number}.js");
+    }
+    if (-f "lib/js-multigraph/build/multigraph-standalone-min.js") {
+        printf("    lib/js-multigraph/build/multigraph-standalone-min.js      => ./download/multigraph-standalone-min-${release_number}.js\n");
+        sys("cp lib/js-multigraph/build/multigraph-standalone-min.js ./download/multigraph-standalone-min-${release_number}.js");
+    }
+
+
     if (-f "lib/js-multigraph/ReleaseNotes.md") {
         printf("    lib/js-multigraph/ReleaseNotes.md  => ./download/ReleaseNotes-${release_number}.md\n");
         write_release_notes_file($release_number,
@@ -124,6 +138,8 @@ $latest_release_number = $latest_release_tag;
 $latest_release_number =~ s/^v//;
 sys("cp ./download/multigraph-${latest_release_number}.js ./download/multigraph.js");
 sys("cp ./download/multigraph-min-${latest_release_number}.js ./download/multigraph-min.js");
+sys("cp ./download/multigraph-standalone-${latest_release_number}.js ./download/multigraph-standalone.js");
+sys("cp ./download/multigraph-standalone-min-${latest_release_number}.js ./download/multigraph-standalone-min.js");
 
 #
 # leave the lib/js-multigraph repo with the latest tag checked out
@@ -134,10 +150,12 @@ sys("(cd lib/js-multigraph ; git checkout $latest_release_tag) > /dev/null 2>&1"
 ###sys("git submodule update --recursive");
 
 #
-# build the example pages for this release
+# copy mugl files into place for examples
 #
-message("building mugl example pages");
-sys("./build-site");
+message("copying example mugl files");
+sys("/bin/rm -rf examples/graphs/*");
+sys("cp -r lib/js-multigraph/spec/mugl/* examples/graphs");
+sys("cp lib/js-multigraph/spec/graphs/graphs.json examples/graphs");
 
 #
 # copy the mugl-schema xsd file for this release into place
@@ -159,9 +177,9 @@ if (-f "lib/js-multigraph/LICENSE.txt") {
 #
 # regenerate the api docs for this release and copy them to the docs/api directory
 #
-message("generating/copying api docs");
-sys("cd lib/js-multigraph; npm intall ; grunt yuidoc");
-sys("(cd lib/js-multigraph ; tar cf - api) | (cd docs ; tar xvf -)");
+message("NOT!!!! generating/copying api docs");
+#sys("cd lib/js-multigraph; npm intall ; grunt yuidoc");
+#sys("(cd lib/js-multigraph ; tar cf - api) | (cd docs ; tar xvf -)");
 
 #
 # write latest release number and date to _include files
