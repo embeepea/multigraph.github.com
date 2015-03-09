@@ -28,7 +28,7 @@ console.log($('body').scrollspy);
 
 <p>The optional <code>&lt;window&gt;</code> element customizes the default border, margin, padding box, and plot area regions. The window can be thought of as a set of (mostly invisible) nested rectangles inside of a block-level <code>&lt;div&gt;</code> element. See the figure in the following section for an illustration.</p>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;window
      width="INTEGER"
      height="INTEGER"
@@ -123,7 +123,7 @@ console.log($('body').scrollspy);
  <div class="col-md-2"></div>
 </div>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;plotarea
      marginbottom="INTEGER(35)"
      margintop="INTEGER(10)"
@@ -255,7 +255,7 @@ console.log($('body').scrollspy);
 </div>
 !-->
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;horizontalaxis
      id="STRING"
      type="DATATYPE(number)"
@@ -904,7 +904,7 @@ console.log($('body').scrollspy);
 <p>When a graph has more than one plot, Multigraph automatically adds a legend in the upper-right corner. The <code>&lt;legend&gt;</code> element allows you to control the legend's appearance.</p>
 
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;legend
      visible="BOOLEAN"
      base="POINT(1,1)"
@@ -1096,7 +1096,7 @@ console.log($('body').scrollspy);
 
 <p>A plot is described with a <code>&lt;plot&gt;</code> element. There can be any number (zero or more) of <code>&lt;plot&gt;</code> elements in the file. Multigraph will draw the plots in the order they appear in a mugl file. If a <code>&lt;plot&gt;</code> element is present at all, Multigraph will create a single line plot of the <code>&lt;data&gt;</code> element's first variable on the horizontal axis against the second variable on the vertical axis (or first vertical axis, if there is more than one).</p>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;plot&gt;
    &lt;legend
        visible="BOOLEAN(true)"
@@ -1488,7 +1488,7 @@ console.log($('body').scrollspy);
 
 <p>The <code>&lt;data&gt;</code> element in the mugl file specifies the data to be plotted. The <code>&lt;data&gt;</code> element is the only element that is absolutely required in a mugl file. It is helpful to think of the data as consisting of a table of values, where each column in the table corresponds to a particular variable, and each row corresponds to a set of values for those variables.</p>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;data&gt;
    &lt;variables
        missingvalue="DATAVALUE"
@@ -1686,7 +1686,7 @@ console.log($('body').scrollspy);
 
 <br>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;title
      base="POINT(0,1)"
      anchor="POINT(0,1)"
@@ -1761,7 +1761,7 @@ console.log($('body').scrollspy);
 
 <p>You can specify an alternate background color or an image to be used in the background of a graph with the <code>&lt;background&gt;</code> sub-element. If this element is present at all, it should appear at the top level of the Mugl file, inside the mugl tag.</p>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;background color="COLOR(white)"&gt;
    &lt;img
        src="STRING!"
@@ -1875,7 +1875,7 @@ console.log($('body').scrollspy);
 
 <p>Throttling only applies to data fetched via a <code>&lt;csv&gt;</code> or <code>&lt;service&gt;</code> data source; it does not apply to any images retrieved by the <code>&lt;background&gt;</code> <code>&lt;img&gt;</code> element.</p>
 
-<pre class="prettyprint"><code>&lt;mugl&gt;
+<pre class="syntaxhighlight"><code>&lt;mugl&gt;
  &lt;throttle
      pattern="STRING()"
      requests="INTEGER(0)"

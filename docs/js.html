@@ -38,7 +38,7 @@ Versions of the Multigraph JavaScript file that do not have the string
 include a copy of jQuery.  If you load one of these Multigraph files
 in your page with a <code>&lt;script&gt;</code> tag such as
 
-<pre><code>&lt;script type="text/javascript" src="http://multigraph.org/download/multigraph-min.js"&gt;&lt;/script&gt;
+<pre class="syntaxhighlight"><code>&lt;script type="text/javascript" src="http://multigraph.org/download/multigraph-min.js"&gt;&lt;/script&gt;
 </code></pre>
 
 you can refer to the global <code>$</code> or <code>jQuery</code>
@@ -67,7 +67,7 @@ do not include a copy of jQuery,  and if you use one of these
 versions, you must include jQuery in your page before loading
 Multigraph:
 
-<pre class="prettyprint"><code>&lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+<pre class="syntaxhighlight"><code>&lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="http://multigraph.org/download/multigraph-nojq-min.js"&gt;&lt;/script&gt;
 </code></pre>
 
@@ -85,10 +85,10 @@ instances of Multigraph in <code>div</code>s in the page. For example,
 suppose your HTML page contains the following div:
 </p>
 
-<pre class="prettyprint"><code>&lt;div id='#mygraph' style="width:500px; height:300px"/&gt;</code></pre>
+<pre class="syntaxhighlight"><code>&lt;div id='#mygraph' style="width:500px; height:300px"/&gt;</code></pre>
 <p>You can insert a Multigraph into this <code>div</code> by calling</p>
 
-<pre class="prettyprint"><code>$('#mygraph').multigraph({ 'mugl' : <strong>URL-OF-MUGL-FILE-HERE</strong> });</code></pre>
+<pre class="syntaxhighlight"><code>$('#mygraph').multigraph({ 'mugl' : <strong>URL-OF-MUGL-FILE-HERE</strong> });</code></pre>
 
 <p>This is in fact exactly what Multigraph itself does to implement the normal interface that automatically inserts a Multigraph instance into all <code>div</code>s in the page having a class of <code>multigraph</code>.</p>
 
@@ -172,7 +172,7 @@ suppose your HTML page contains the following div:
     <p>If you're not familiar with jQuery promise objects, they're just a convenient way to handle asynchronous code. A promise object is needed in this case because Multigraph doesn't finish constructing the graph until after the MUGL file it references has been loaded, and this generally involves an asynchronous (ajax) request for the file. So it's not possible to directly return the Multigraph object; instead, what is returned is a promise object that can be used to apply functions to the (possibly not-yet-created) Multigraph object through the promise object's <code>done()</code> method.</p>
         
     <p>This is easier to follow with a concrete example:</p>
-<pre class="prettyprint"><code>$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
+<pre class="syntaxhighlight"><code>$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
 var multigraphPromise = $('#mygraph').multigraph('multigraph');
     multigraphPromise.done(function(m) {
     // The promise will call this function once the Multigraph object
@@ -191,7 +191,7 @@ multigraphPromise.done(function(m) {
 
     <p>The multigraph plugin also defines a convenience method called <code>done</code>, which simply delegates to the underlying promise's <code>done</code> method; you can use this plugin method to avoid having to store a reference to the promise object:</p>
 
-<pre class="prettyprint"><code>$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
+<pre class="syntaxhighlight"><code>$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
 $('#mygraph').multigraph('done', function(m) {
     console.log("This graph's first axis has an id of: " + m.graphs().at(0).axes().at(0).id());
 });

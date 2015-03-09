@@ -165,7 +165,7 @@ footer a:active {
 footer abbr[title] {
     border-bottom-width: 0;
 }
-pre.prettyprint {
+pre.syntaxhighlight {
     padding: 10px;
     border: 1px solid #cccccc;
 }

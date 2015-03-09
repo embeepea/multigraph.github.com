@@ -1,0 +1,273 @@
+#! /usr/bin/perl
+
+sub escape_entities {
+    my $s = shift;
+    $s =~ s/</&lt;/g;
+    $s =~ s/>/&gt;/g;
+    return $s;
+}
+
+sub escape_quotes {
+    my $s = shift;
+    $s =~ s/'/\\'/g;
+    $s =~ s/"/\\"/g;
+    return $s;
+}
+
+sub render {
+    my $tpl = shift;
+    my $hr = shift;
+    my $key;
+    while ( ($key) = ($tpl =~ m|\{\{([^\}]+)\}\}|) ) {
+        $tpl =~ s|\{\{$key\}\}|$hr->{$key}|g;
+    }
+    return $tpl;
+}
+
+open(OUT, ">docs/annotated-mugl/index.html");
+
+print OUT qq!---
+siteroot: ../../..
+layout: master
+menu-documentation: selected
+title: Multigraph - Annotated MUGL
+headers: |
+  <script type="text/javascript" src="jquery.tooltip.min.js"></script>
+  <script type="text/javascript" src="annotated-mugl.js"></script>
+  <link rel="stylesheet" href="annotated-mugl.css"></link>  
+---
+
+<script type="text/javascript" src="/js/jquery.tooltip.min.js"></script>
+<script type="text/javascript" src="/js/annotated-mugl.js"></script>
+<link rel="stylesheet" href="/css/annotated-mugl.css"></link>  
+
+<h1>Annotated MUGL File</h2>
+
+<p>
+This is an interactive MUGL file which is annotated with comments
+documenting every element and attribute in the MUGL specification.
+Click on an element to expand it; hover over an attribute to see more
+documentation for it.  You can download this entire annotated MUGL
+file, as a valid XML document, here: <a
+href="annotated-mugl.xml">annotated-mugl.xml</a>.  Note that although
+this file is a valid XML document, and it conveys the structure of
+MUGL by example, it is not actually a valid MUGL file; don't try
+loading this file into Multigraph.  It is intended for documentation
+of the MUGL specification only.  A formal XSD document that defines
+the MUGL specification is <a href="../mugl-schema.html">also
+available</a>.
+</p>
+
+<div class="highlight"><pre><code class="xml">!
+    ;
+
+open(IN, "<docs/annotated-mugl/annotated-mugl.xml");
+my $in_comment = 0;
+my $in_tilde_comment = 0;
+my %types = ();
+my $current_type = "";
+my $tooltip_count = 0;
+while (chomp($line = <IN>)) {
+    if ($in_tilde_comment) {
+        if ( ($indent, $comment) = ($line =~ m|^(\s*)(\S*-->)\s*$|) ) {
+            # close tilde comment
+            $in_tilde_comment = 0;
+            $current_type = "";
+        } else {
+            # tilde comment line
+            $line =~ s|^\s*~\s*||;
+            if ( ($type) = ($line =~ m|^type:\s*(\S+)|) ) {
+                $current_type = $type;
+                $types{$current_type} .= "";
+            } elsif ($line =~ m|\S|) {
+                if ($current_type) {
+                    if ($types{$current_type} ne "") {
+                        $types{$current_type} .= " ";
+                    }
+                    $types{$current_type} .= $line;
+                }
+            } else {
+                $current_type = "";
+            }
+        }
+        next;
+    }
+    if ($in_comment) {
+        if ( ($indent, $comment) = ($line =~ m|^(\s*)(\S*-->)\s*$|) ) {
+            # close comment
+            print OUT render('<span class="c">{{indent}}{{comment}}</span>' . "\n", {
+                indent  => $indent,
+                comment => escape_entities($comment)
+                         });
+            $in_comment = 0;
+        } else {
+            # comment line
+            print OUT render('<span class="c">{{comment}}</span>' . "\n", {
+                comment => escape_entities($line)
+                         });
+        }
+        next;
+    }
+
+    if ( ($indent, $comment) = ($line =~ m|^(\s*)(<!--~.*)$|) ) {
+        # open tilde comment
+        $in_tilde_comment = 1;
+    } elsif ( ($indent, $comment) = ($line =~ m|^(\s*)(<!--.*)$|) ) {
+        # open comment
+        print OUT render('<span class="c">{{indent}}{{comment}}</span>' . "\n", {
+            indent  => $indent,
+            comment => escape_entities($comment)
+                     });
+        $in_comment = 1;
+    } elsif ( ($indent, $tag) = ($line =~ m|^(\s*)<([^\s>]+)\s*$|) ) {
+        # open tag of the form "<tag"
+        print OUT render(''
+                     . '<span class="element">'
+                     .   '<span class="collapsed">'
+                     .     '{{indent}}'
+                     .     '<span class="target">'
+                     .       '<span class="tagprefix">+</span>'
+                     .       '<span class="nt">&lt;{{tag}}.../&gt;</span>'
+                     .     '</span>'
+                     .   '</span>', {
+                         indent => $indent,
+                         tag    => $tag
+                     });
+        print OUT render(''
+                     .   '<span class="expanded">'
+                     .     '{{indent}}'
+                     .     '<span class="target">'
+                     .       '<span class="tagprefix">-</span>'
+                     .       '<span class="nt">&lt;{{tag}}</span>'
+                     .     '</span>' . "\n", {
+                         indent => $indent,
+                         tag    => $tag
+                     });
+    } elsif ( ($indent, $tag) = ($line =~ m|^(\s*)</([^\s>]+)>\s*$|) ) {
+        # close tag
+        if ($tag eq "mugl") {
+            print OUT render('{{indent}}<span class="nt">&lt;/{{tag}}&gt;</span>' . "\n", {
+                indent => $indent,
+                tag    => $tag
+                         });
+        } else {
+            print OUT render(''
+                         .     '{{indent}}'
+                         .     '<span class="tagprefix"></span>'
+                         .     '<span class="nt">&lt;/{{tag}}&gt;</span>'
+                         .   '</span>'
+                         . '</span>' . "\n", {
+                             indent => $indent,
+                             tag    => $tag
+                         });
+        }
+    } elsif ( ($indent, $tag) = ($line =~ m|^(\s*)<([^\s>]+)>\s*$|) ) {
+        # open tag of the form "<tag>"
+        if ($tag eq "mugl") {
+            print OUT render('{{indent}}<span class="nt">&lt;{{tag}}&gt;</span>' . "\n", {
+                indent => $indent,
+                tag    => $tag
+                         });
+        } else {
+            print OUT render(''
+                         . '<span class="element">'
+                         .   '<span class="collapsed">'
+                         .     '{{indent}}'
+                         .     '<span class="target">'
+                         .       '<span class="tagprefix">+</span>'
+                         .       '<span class="nt">&lt;{{tag}}.../&gt;</span>'
+                         .     '</span>'
+                         .   '</span>', {
+                             indent => $indent,
+                             tag    => $tag
+                         });
+            print OUT render(''
+                         . '<span class="expanded">'
+                         .   '{{indent}}'
+                         .   '<span class="target">'
+                         .     '<span class="tagprefix">-</span>'
+                         .     '<span class="nt">&lt;{{tag}}&gt;</span>'
+                         .     '</span>' . "\n", {
+                             indent => $indent,
+                             tag    => $tag
+                         });
+        }
+    } elsif ( ($indent,$name,$value,$suffix) = ($line =~ m|^(\s*)([a-z0-9_-]+)\s*=\s*"([^\"]*)"(.*)$|i) ) {
+        $tooltip_id = sprintf("type-tooltip-%1d", ++$tooltip_count);
+        print OUT render(''
+                     . '{{indent}}'
+                     . '<span class="tipped-type" id="{{id}}">'
+                     .   '<span class="na">{{name}}=</span>'
+                     .   '<span class="s">&quot;{{value}}&quot;</span>'
+                     . '</span>'
+                     . '{{suffix}}' . "\n",
+                     {
+                         'indent' => $indent,
+                         'id'     => $tooltip_id,
+                         'name'   => $name,
+                         'value'  => $value,
+                         'suffix' => $suffix
+                     });
+        print OUT tooltip_script($tooltip_id, $name, $value);
+    } else {
+        $line = escape_entities($line);
+        print OUT "$line\n";
+    }
+
+}
+close(IN);
+
+print OUT <<EOF
+</code></pre></div>
+EOF
+    ;
+
+close(OUT);
+
+sub tooltip_script {
+    my $id    = shift;
+    my $name = shift;
+    my $value = shift;
+    my $bang,$type,$default;
+    my @content = ();
+    if ( ($type,$bang,$default) = ($value =~ m|^\s*([^\!\(]+)\s*(\!?)\s*(\([^\(]*\))?\s*$|) ) {
+        my $required = ($bang eq "!");
+        my $have_default = ($default ne "");
+        if ($have_default) {
+            $default =~ s|^\(||;  $default =~ s|\)$||;  # strip parens from $default value
+        }
+        push(@content, render(''
+                            . '<p>{{required}} attribute <code>{{name}}</code>{{default}}</p>'
+                            . '<p>Type: {{type}}{{typedetails}}</p>', {
+                                'required'    => ($required ? "Required" : "Optional"),
+                                'name'        => $name,
+                                'default'     => ($have_default ? qq|; default value: "$default"| : ""),
+                                'type'        => $type,
+                                'typedetails' => ($types{$type} ? sprintf(" - %s", escape_quotes($types{$type})) : "")
+                            }));
+    }
+    if (!@content) {
+        push(@content, render('{{value}}<br/>Unknown details for this type', {
+            value => $value
+                            }));
+    }
+    my $content = join("", @content);
+    return render(''
+                  . '<script type="text/javascript">'
+                  .   '$(\'document\').ready(function() {'
+                  .     '$(\'#{{id}}\').tooltip({'
+                  .       'track: true,'
+                  .       'showURL: false,'
+                  .       'opacity: 1.0,'
+                  .       'left: 25,'
+                  .       'top: -50,'
+                  .       'bodyHandler : function() {'
+                  .         'return $(\'<div class="tooltip">{{content}}</div>\');'
+                  .       '}'
+                  .     '});'
+                  .   '});'
+                  . '</script>', {
+                      'id'      => $id,
+                      'content' => $content
+                  });
+}

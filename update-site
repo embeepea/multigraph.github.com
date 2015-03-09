@@ -36,12 +36,6 @@ EOF
     close(OUT);
 }
 
-#if (! `which yuidoc`) {
-#    die "yuidoc is not installed on this system; update-releases requires it.\n";
-#}
-#if (! `which ant`) {
-#    die "ant is not installed on this system; update-releases requires it.\n";
-#}
 if (! `which git`) {
     die "git is not installed on this system; update-releases requires it.\n";
 }
@@ -233,8 +227,7 @@ if (-f "lib/js-multigraph/LICENSE.txt") {
 }
 
 #
-# regenerate the api docs for this release and copy them to the docs/api directory
+# update the annotated mugl file
 #
-message("NOT!!!! generating/copying api docs");
-#sys("cd lib/js-multigraph; npm intall ; grunt yuidoc");
-#sys("(cd lib/js-multigraph ; tar cf - api) | (cd docs ; tar xvf -)");
+message("updating docs/annotated-mugl/index.html");
+sys("./update-annotated-mugl");

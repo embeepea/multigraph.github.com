@@ -1,4 +1,4 @@
 name: Multigraph
 markdown: html
 markdown: rdiscount
-exclude: [ "Gemfile*", "update-releases", "lib", "README.md" ]
+exclude: [ "Gemfile*", "update-site", "update-annotated-mugl", "lib", "README.md" ]
