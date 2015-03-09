@@ -1,0 +1,94 @@
+---
+title: Quickstart
+quickstart: selected
+layout: master
+---
+
+<h1>Quickstart</h1>
+
+<p>Ready to get started? This page provides an introduction to Multigraph.</p>
+
+<hr>
+
+<h3>Hello, Multigraph!</h3>
+
+<p>
+A Multigraph consists of two parts: a <code>&lt;div&gt;</code> element in an HTML page,
+and a "mugl" file (a type of xml file) that describes the graph to display in that
+<code>&lt;div&gt;</code> element.  For example, if you put the
+<code>graph.html</code> and <code>graph.xml</code> files below in a directory on your
+web server, and view the <code>graph.html</code> file in a browser, you should see
+a Multigraph like the one shown here.
+</p>
+
+<h4 style="margin-bottom: 5px;">graph.html</h4>
+
+
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;script type="text/javascript" src="//multigraph.org/download/multigraph-min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="multigraph" data-src="graph.xml" data-width="500" data-height="400"&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<div class="row">
+ <div class="col-md-6">
+  <h4 style="margin-bottom: 5px;">graph.xml</h4>
+ </div>
+ <div class="col-md-6">
+  <h4 style="margin-bottom: 5px;">Multigraph</h4>
+ </div>
+</div>
+
+<div class="row">
+ <div class="col-md-6">
+  <pre style="min-height: 300px;"><code>&lt;mugl&gt;
+  &lt;data&gt; 
+    &lt;values&gt;
+      0, 3
+      2, 4
+      4, 3
+      6, 4.5
+      9, 0
+      10,5
+    &lt;/values&gt;
+  &lt;/data&gt;
+&lt;/mugl&gt;
+  </code></pre>
+ </div>
+ <div class="col-md-6">
+  <div class="multigraph" data-src="/docs/quickstart/graph.xml" data-width="100%" data-height="300" style="height: 300px; position: relative;"></div>
+ </div>
+</div>
+
+<hr />
+
+<p>
+You can put any number of Multigraphs in a web page.
+Multigraph examines your page for all <code>&lt;div&gt;</code>
+elements having a class of <code>multigraph</code>, looking at the
+<code>data-src</code>, <code>data-width</code>, and <code>data-height</code>
+attributes to determine the MUGL file and size of the
+graph to put into each element.
+</p>
+
+<p>
+Creating a <code>&lt;div&gt;</code> of class <code>multigraph</code> is just one way of creating a Multigraph; it's also
+possible to invoke Multigraph from JavaScript code in your page.  In particular, Multigraph works as a JQuery plugin, so
+you can use JQuery to target an arbitrary <code>&lt;div&gt;</code> in your page and insert a Multigraph into it.  See
+the <a href="/docs/js">Using Multigraph with JavaScript</a> page for more details.
+</p>
+
+<p>
+To see many more examples of MUGL files, check out the <a href="/examples">examples</a> page.
+</p>
+
+<p>
+For more details on how to write MUGL files and how to use Multigraph in general, see
+the <a href="/docs">Documentation</a> page.
+</p>
+
+<hr />

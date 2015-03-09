@@ -7,41 +7,94 @@ layout: master
 
 <h2>Using Multigraph with JavaScript</h2>
     
-    <p>Multigraph's HTML5 interface lets you create a graph in an HTML page by simply putting a <code>div</code> in the page which has <code>class="multigraph"</code>, and a <code>data-src</code> attribute that gives the location of the MUGL file to load. Multigraph scans through the entire page looking for all <code>div</code>s of class <code>multigraph</code>, and runs some code on each one to insert the relevant graph into it. This is the easiest way to get a Multigraph into a web page, and doesn't involve writing any JavaScript code. If you want more control over the details of what Multigraph does, though, you can write your own custom JavaScript code that interacts with Multigraph.</p>
+<p>
 
-    <h3>The <code>multigraph</code> JavaScript Namespace</h3>
+Multigraph lets you create a graph in an HTML page
+by simply putting a <code>div</code> in the page which
+has <code>class="multigraph"</code>, and a <code>data-src</code>
+attribute that gives the location of the MUGL file to load. Multigraph
+scans through the entire page looking for all <code>div</code>s of
+class <code>multigraph</code>, and runs some code on each one to
+insert the relevant graph into it. This is the easiest way to get a
+Multigraph into a web page, and doesn't involve writing any JavaScript
+code. If you want more control over the details of what Multigraph
+does, though, you can write your own custom JavaScript code that
+interacts with Multigraph.
 
-    <p>The first thing to be aware of if you want to interact with Multigraph using JavaScript is that multigraph<em>(-min)</em>.js defines a single variable at the global level named <code>multigraph</code>. This variable serves as a namespace for Multigraph &#8212; all functions and objects that Multigraph defines are inside this object. This global <code>multigraph</code> object is also available as <code>window.multigraph</code>.</p>
+</p>
 
-    <h3>Multigraph and jQuery</h3>
+<h3>Multigraph and jQuery</h3>
 
-    <p>Multigraph uses <a href='http://jquery.com'>jQuery</a>, and multigraph.js includes a copy of jQuery inside it. This copy of jQuery is included in a way that does not define any global variables &#8212; in particular, it does affect the value of the global variable <code>$</code>. This is to avoid any conflicts between multigraph.js and other libraries (such as prototype.js, or another copy of jQuery) on the page that might use <code>$</code> for their own purposes. The jQuery object from this internal copy of jQuery is available through the expression <code>window.multigraph.jQuery</code>, though, and you're free to reassign that value back to <code>$</code> if you want to use jQuery on your page without having to load it separately:</p>
+<p>
+Multigraph requires <a href='http://jquery.com'>jQuery</a>.
+When you load Multigraph into your web page, you can either load
+a version of it that includes a copy of JQuery, or (starting with 
+Multigraph release 5.0.1) you can load your own copy of jQuery and
+then load a version of Multigraph that does not include jQuery.
 
-    <pre class="prettyprint">
-&lt;script type="text/javascript" src="http://multigraph.github.io/download/multigraph-min.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript"&gt;
-      $ = window.multigraph.jQuery;
-      /* ... from this point on you can use $ to refer to jQuery as usual ... */
-      console.log('This copy of Multigraph uses jQuery version ' + $().jQuery);
-    &lt;/script&gt;</pre>
+Versions of the Multigraph JavaScript file that do not have the string
+"nojq" in their name (such as "multigraph.js", 
+"multigraph-min.js", "multigraph-5.0.1.js", "multigraph-min-5.0.1.js", etc)
+include a copy of jQuery.  If you load one of these Multigraph files
+in your page with a <code>&lt;script&gt;</code> tag such as
 
-    <p>At the time of this writing, the version of jQuery included in Multigraph is 1.8.2; you can always check the jQuery version number exactly by examining <code>$().jQuery</code> as in the above example.</p>
+<pre><code>&lt;script type="text/javascript" src="http://multigraph.org/download/multigraph-min.js"&gt;&lt;/script&gt;
+</code></pre>
 
-    <h3>The Multigraph jQuery Plugin</h3>
+you can refer to the global <code>$</code> or <code>jQuery</code>
+variables in subsequent JavaScript code on your page
+as if you had included jQuery itself.
+</p>
 
-    <p>Multigraph is implemented as a jQuery plugin &#8212; it defines a function named <code>multigraph</code> that you can call on a jQuery collection. You can use this function to create and/or access instances of Multigraph in <code>div</code>s in the page. For example, suppose your HTML page contains the following div:</p>
+<p>
+[Note: releases of Multigraph prior to 5.0 include jQuery in a way that
+does not define the global <code>$</code> or <code>jQuery</code> variables.
+For these releases, the jQuery object included by Multigraph is available in
+the global variable <code>multigraph.jQuery</code>.]
+</p>
 
-    <pre class="prettyprint">&lt;div id='#mygraph' style="width:500px; height:300px"/&gt;</pre>
+<p>
+At the time of this writing, the version of jQuery that is included with
+Multigraph is 1.8.2, but you can examine the value of <code>$.fn.jquery</code>
+at any time to discover the jQuery version.
+</p>
 
-    <p>You can insert a Multigraph into this <code>div</code> by calling</p>
+<p>
+Starting with Multigraph version 5.0.1, there 
+are also versions of the Multigraph JavaScript file that include
+the string "nojq" in the filename; these versions of Multigraph
+do not include a copy of jQuery,  and if you use one of these
+versions, you must include jQuery in your page before loading
+Multigraph:
 
-    <pre class="prettyprint">$('#mygraph').multigraph({ 'mugl' : <strong>URL-OF-MUGL-FILE-HERE</strong> });</pre>
+<pre class="prettyprint"><code>&lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://multigraph.org/download/multigraph-nojq-min.js"&gt;&lt;/script&gt;
+</code></pre>
 
-    <p>This is in fact exactly what Multigraph itself does to implement the normal HTML5 interface that automatically inserts a Multigraph instance into all <code>div</code>s in the page having a class of <code>multigraph</code>.</p>
+Multigraph should work with any version of jQuery greater than or equal to 1.8.2.  It
+may also work with older versions of jQuery, but has not been tested with them.
+</p>
 
-    <h3>Creating a Multigraph</h3>
+<h3>The Multigraph jQuery Plugin</h3>
 
-    <p>The <code>multigraph</code> plugin function takes a single argument which is a JavaScript object that specifies options that govern how the Multigraph is created. The possible values in this options object are:</p>
+<p>
+Multigraph is implemented as a jQuery plugin &#8212; it defines a
+function named <code>multigraph</code> that you can call on a jQuery
+collection. You can use this function to create and/or access
+instances of Multigraph in <code>div</code>s in the page. For example,
+suppose your HTML page contains the following div:
+</p>
+
+<pre class="prettyprint"><code>&lt;div id='#mygraph' style="width:500px; height:300px"/&gt;</code></pre>
+<p>You can insert a Multigraph into this <code>div</code> by calling</p>
+
+<pre class="prettyprint"><code>$('#mygraph').multigraph({ 'mugl' : <strong>URL-OF-MUGL-FILE-HERE</strong> });</code></pre>
+
+<p>This is in fact exactly what Multigraph itself does to implement the normal interface that automatically inserts a Multigraph instance into all <code>div</code>s in the page having a class of <code>multigraph</code>.</p>
+
+<h3>Plugin Options</h3>
+
+<p>The Multigraph plugin function takes a single argument which is a JavaScript object that specifies options that govern how the Multigraph is created. The possible values in this options object are:</p>
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -92,36 +145,6 @@ layout: master
       <li class="list-group-item">
         <div class="row">
           <div class="col-md-2">
-            <code>driver</code>
-          </div>
-          <div class="col-md-10">
-           <p>The graphics driver to use in the graph. The possible values are:</p>
-           <div class="row">
-             <div class="col-md-2">
-               <code>"canvas"</code>
-             </div>
-             <div class="col-md-10">
-               <p>Causes Multigraph to use the HTML5 Canvas tag for graphics. This works in all recent browsers except versions of IE prior to 9.</p>
-             </div>
-             <div class="col-md-2">
-               <code>"raphael"</code>
-             </div>
-             <div class="col-md-10">
-               <p>Causes Multigraph to use the Raphael graphics library for graphics. This library uses SVG in browsers that support SVG; it uses VML in versions of IE prior to 9.</p>
-             </div>
-             <div class="col-md-2">
-               <code>"auto"</code>
-             </div>
-             <div class="col-md-10">
-               <p>This is the default; it causes Multigraph to use the canvas driver in all browsers that support it, and otherwise it uses the Raphael driver.</p>
-             </div>
-           </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-md-2">
             <code>error</code>
           </div>
           <div class="col-md-10">
@@ -149,7 +172,7 @@ layout: master
     <p>If you're not familiar with jQuery promise objects, they're just a convenient way to handle asynchronous code. A promise object is needed in this case because Multigraph doesn't finish constructing the graph until after the MUGL file it references has been loaded, and this generally involves an asynchronous (ajax) request for the file. So it's not possible to directly return the Multigraph object; instead, what is returned is a promise object that can be used to apply functions to the (possibly not-yet-created) Multigraph object through the promise object's <code>done()</code> method.</p>
         
     <p>This is easier to follow with a concrete example:</p>
-    <pre class="prettyprint">$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
+<pre class="prettyprint"><code>$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
 var multigraphPromise = $('#mygraph').multigraph('multigraph');
     multigraphPromise.done(function(m) {
     // The promise will call this function once the Multigraph object
@@ -163,16 +186,25 @@ multigraphPromise.done(function(m) {
     // every function you pass to it, in the same order in which you pass them, once the
     // Multigraph object has been constructed.
     console.log("And its second axis has an id of: " + m.graphs().at(0).axes().at(1).id());
-});</pre>
+});
+</code></pre>
 
     <p>The multigraph plugin also defines a convenience method called <code>done</code>, which simply delegates to the underlying promise's <code>done</code> method; you can use this plugin method to avoid having to store a reference to the promise object:</p>
 
-    <pre class="prettyprint">$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
+<pre class="prettyprint"><code>$('#mygraph').multigraph({ 'mugl' : URL_OF_MUGL_FILE });
 $('#mygraph').multigraph('done', function(m) {
     console.log("This graph's first axis has an id of: " + m.graphs().at(0).axes().at(0).id());
 });
 $('#mygraph').multigraph('done', function(m) {
     console.log("And its second axis has an id of: " + m.graphs().at(0).axes().at(1).id());
-});</pre>
+});
+</code></pre>
 
-    <p>The Multigraph object, <code>m</code> in the examples above, is an instance of the window.multigraph.Multigraph model in the Multigraph JavaScript API. The <a href='http://multigraph.github.io/docs/api'>documentation for this API</a> hasn't been fully written yet, but the beginnings of it are in place.</p>
+<p>
+The Multigraph object, <code>m</code> in the examples above, is an
+instance of the window.multigraph.Multigraph model in the Multigraph
+JavaScript API.  Unfortunately, documentation for this API hasn't
+been written yet, but the 
+<a href="https://github.com/multigraph/js-multigraph">source code</a>
+itself is liberally commented and is hopefully fairly readable.
+</p>

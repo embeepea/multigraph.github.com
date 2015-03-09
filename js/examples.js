@@ -51,7 +51,10 @@ $(document).ready(function() {
             url: mugl_url,
             dataType: "text",
             success: function(mugl) {
-                $("pre.example.prettyprint").text(mugl);
+                $("pre.example.prettyprint code").text(mugl);
+                $("pre.example.prettyprint code").each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
             },
             error : function (jqXHR, textStatus, errorThrown) {
                 console.log('error fetching mugl');

@@ -11,7 +11,7 @@ layout: master
 <p>One of the ways that multigraph can obtain data to be plotted is from an http-based API that requests data as needed. Each time multigraph needs to display a plot, it will construct an URL to fetch the data needed for the plot. The response to the request should be a list of comma-separated values, with one set of values per line. Multigraph caches data received from the server so that the same data is never fetched more than once.</p>
 
 <p>To write a new web service data source for multigraph, you need to create a program to run on your server that accepts URLs using a specific syntax, and generates responses in a particular format that multigraph understands. The syntax for the URLs is the following: </p>
-<pre class="prettyprint">http://www.yourserver.com/path/to/script/Xmin,Xmax/Bmin,Bmax</pre>
+<pre class="prettyprint"><code>http://www.yourserver.com/path/to/script/Xmin,Xmax/Bmin,Bmax</code></pre>
 
 <p>where <code>Xmin</code> and <code>Xmax</code> are values of a horizontal axis variable corresponding to the region of data being requested, and <code>Bmin</code> and <code>Bmax</code> are "buffer" values. <code>Xmin</code> and <code>Xmax</code> determine an interval along the first variable dimension, and <code>Bmin</code> and <code>Bmax</code> determine an amount of "buffering" around that interval (specified as positive integers).</p>
 
@@ -20,21 +20,19 @@ layout: master
 <p>Multigraph needs this buffering capability in order to be able to plot the left and right edges of a data plot. For example, in order to be able to draw the visible piece of a line segment between the last visible data point at the right edge of a plot and the next (non-visible) point beyond the right edge, Multigraph needs to know the value of that next data point. Multigraph will usually choose buffer amounts <code>Bmin</code> and <code>Bmax</code> to both be <code>1</code>, because usually one extra data point is all that is needed. At the time of this writing, Multigraph always uses <code>Bmin</code> and <code>Bmax</code> values of <code>1</code>. It is possible that in the future, however, there could be situations where greater buffer values are needed, so it is best to design any Multigraph web data services that you write to be able to handle arbitrary <code>Bmin</code> and <code>Bmax</code> values.</p>
 
 <p>Another example: imagine a data set that consists of hourly temperature values for the month of January 2009; one temperature value corresponding to the top of each hour. Multigraph is preparing to draw a plot using the line renderer for the 6-hour period starting at 5:30am and ending at 11:30am on January 12. There are 6 data points visible in that time range, corresponding to times 6:00, 7:00, 8:00, 9:00, 10:00, and 11:00. Multigraph will also need one more data point on either side of this range, namely the data for 5:00 and 12:00, in order to be able to draw the partially visible line segments between the 11:00 value and the right edge of the graph, and between the 6:00 value and the left edge of the graph. Since the actual interval being displayed ranges from 5:30 to 11:30, the <code>Xmin</code> value in the request that Multigraph generates will correspond to the time 5:30, and the <code>Xmax</code> value will correspond to 11:30. The <code>Bmax</code> and <code>Bmin</code> values will both be <code>1</code>. The generated request URL therefore looks like the following:</p>
-<pre class="prettyprint">http://www.yourserver.com/path/to/script/200901120530,200901121130/1,1</pre>
+<pre class="prettyprint"><code>http://www.yourserver.com/path/to/script/200901120530,200901121130/1,1</code></pre>
 
 
 <p>The response to the above request might look like the following: </p>
 
-<pre class="prettyprint">
-200901120500,22.1
+<pre class="prettyprint"><code>200901120500,22.1
 200901120600,23.4
 200901120700,24.2
 200901120800,23.1
 200901120900,25.8
 200901121000,27.9
 200901121100,28.2
-200901121200,29.3
-</pre>
+200901121200,29.3</code></pre>
 
 <p>In this example, Multigraph is drawing a plot that shows 6 data values, but in order to be able to completely draw that plot, it actually needs 2 additional data values, so the request includes a buffer of <code>1</code> on either side of the requested interval, and the response includes 8 values rather than 6. If you are wondering why the buffering can't be accomplished by simply having Multigraph request an 8 hour interval in the first place, and eliminate the need for the extra <code>Bmin</code> and <code>Bmax</code> request parameters altogether, the answer is that Multigraph does not know that the data freqency is hourly. When Multigraph plots data from a web service, it relies completely on the web service to provide the data, and makes no assumptions about how much data is present in a particular interval. It is up to the web service to know that the data occurs hourly, or every 5 minutes, or daily, etc.</p>
 
