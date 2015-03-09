@@ -83,6 +83,22 @@ close(TAGS);
 #
 @releases = sort { $b->{date} cmp $a->{date} } @releases;
 
+
+sub write_download_js {
+    my $src = shift;
+    my $release_number = shift;
+    my $dst = shift;
+    open(OUT, ">download/$dst");
+    printf(OUT "/*%s*/\n", $dst);
+    open(IN, "<$src");
+    while (<IN>) { print OUT $_; }
+    close(IN);
+    printf(OUT "\n;");
+    printf(OUT "window.multigraph.version=\"%s\";", $release_number);
+    printf(OUT "window.multigraph.file=\"%s\";\n", $dst);
+    close(OUT);
+}
+
 #
 # copy built js files, and ReleaseNotes files, for each release, from js-multigraph to downloads
 #
@@ -99,25 +115,29 @@ foreach my $release (@releases) {
 
     if (-f "lib/js-multigraph/build/multigraph.js") {
         printf("    lib/js-multigraph/build/multigraph.js      => ./download/multigraph-${release_number}.js\n");
-        sys("cp lib/js-multigraph/build/multigraph.js ./download/multigraph-${release_number}.js");
+        write_download_js("lib/js-multigraph/build/multigraph.js", ${release_number}, "multigraph-${release_number}.js");
+        #sys("cp lib/js-multigraph/build/multigraph.js ./download/multigraph-${release_number}.js");
     } else {
         printf("    WARNING: lib/js-multigraph/build/multigraph.js not found for this release\n");
     }
 
     if (-f "lib/js-multigraph/build/multigraph-min.js") {
         printf("    lib/js-multigraph/build/multigraph-min.js  => ./download/multigraph-min-${release_number}.js\n");
-        sys("cp lib/js-multigraph/build/multigraph-min.js ./download/multigraph-min-${release_number}.js");
+        write_download_js("lib/js-multigraph/build/multigraph-min.js", ${release_number}, "multigraph-min-${release_number}.js");
+        #sys("cp lib/js-multigraph/build/multigraph-min.js ./download/multigraph-min-${release_number}.js");
     } else {
         printf("    WARNING: lib/js-multigraph/build/multigraph-min.js not found for this release\n");
     }
 
     if (-f "lib/js-multigraph/build/multigraph-nojq.js") {
         printf("    lib/js-multigraph/build/multigraph-nojq.js      => ./download/multigraph-nojq-${release_number}.js\n");
-        sys("cp lib/js-multigraph/build/multigraph-nojq.js ./download/multigraph-nojq-${release_number}.js");
+        write_download_js("lib/js-multigraph/build/multigraph-nojq.js", ${release_number}, "multigraph-nojq-${release_number}.js");
+        #sys("cp lib/js-multigraph/build/multigraph-nojq.js ./download/multigraph-nojq-${release_number}.js");
     }
     if (-f "lib/js-multigraph/build/multigraph-nojq-min.js") {
         printf("    lib/js-multigraph/build/multigraph-nojq-min.js      => ./download/multigraph-nojq-min-${release_number}.js\n");
-        sys("cp lib/js-multigraph/build/multigraph-nojq-min.js ./download/multigraph-nojq-min-${release_number}.js");
+        write_download_js("lib/js-multigraph/build/multigraph-nojq-min.js", ${release_number}, "multigraph-nojq-min-${release_number}.js");
+        #sys("cp lib/js-multigraph/build/multigraph-nojq-min.js ./download/multigraph-nojq-min-${release_number}.js");
     }
 
 
@@ -219,70 +239,3 @@ if (-f "lib/js-multigraph/LICENSE.txt") {
 message("NOT!!!! generating/copying api docs");
 #sys("cd lib/js-multigraph; npm intall ; grunt yuidoc");
 #sys("(cd lib/js-multigraph ; tar cf - api) | (cd docs ; tar xvf -)");
-
-#
-# write latest release number and date to _include files
-#
-message("writing release-related files");
-open(OUT, ">_includes/latest-release-date.txt");
-print OUT $latest_release_date;
-close(OUT);
-
-open(OUT, ">_includes/latest-release-version.txt");
-print OUT $latest_release_number;
-close(OUT);
-
-open(OUT, ">_includes/release-table.html");
-print OUT <<EOF
-<table class="release-table">
-<tr>
-<th>Version</th>
-<th>Date Released</th>
-<th>Release Notes</th>
-<th>JavaScript File</th>
-<th>Compressed JavaScript File</th>
-</tr>
-<tr>
-  <td class="value">$latest_release_number</td>
-  <td class="value">$latest_release_date</td>
-  <td class="value"><a href="ReleaseNotes-${latest_release_number}.html">Read</a></td>
-  <td class="value"><a href="multigraph.js">multigraph.js</a></td>
-  <td class="value"><a href="multigraph-min.js">multigraph-min.js</a></td>
-</tr>
-EOF
-    ;
-foreach $release (@releases) {
-    $release_tag    = $release->{tag};
-    $release_date   = $release->{date};
-    $release_number = $release_tag;
-    $release_number =~ s/^v//;
-    $multigraph_js = "multigraph-${release_number}.js";
-    if (-f "download/$multigraph_js") {
-        $multigraph_js = "<a href=\"$multigraph_js\">$multigraph_js</a>";
-    } else {    
-        $multigraph_js = "MISSING";
-    }
-    $multigraph_min_js = "multigraph-min-${release_number}.js";
-    if (-f "download/$multigraph_min_js") {
-        $multigraph_min_js = "<a href=\"$multigraph_min_js\">$multigraph_min_js</a>";
-    } else {    
-        $multigraph_min_js = "MISSING";
-    }
-    $release_notes = "ReleaseNotes-${release_number}.md";
-    if (-f "download/$release_notes") {
-        $release_notes = "<a href=\"ReleaseNotes-${release_number}.html\">Read</a>";
-    } else {    
-        $release_notes = "MISSING";
-    }
-    print OUT <<EOF
-<tr>
-  <td class="value">$release_number</td>
-  <td class="value">$release_date</td>
-  <td class="value">$release_notes</td>
-  <td class="value">$multigraph_js</td>
-  <td class="value">$multigraph_min_js</td>
-</tr>
-EOF
-;}
-print OUT "</table>\n";
-close(OUT);

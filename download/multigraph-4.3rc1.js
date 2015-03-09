@@ -1,3 +1,4 @@
+/*multigraph-4.3rc1.js*/
 /*! Multigraph - v4.3.0
  * http://multigraph.github.io/
  * Copyright (c) 2014 University of North Carolina at Asheville; Licensed MIT
@@ -22159,3 +22160,5 @@ window.multigraph.util.namespace("window.multigraph.graphics.canvas", function (
 
 });
 
+
+;window.multigraph.version="4.3rc1";window.multigraph.file="multigraph-4.3rc1.js";

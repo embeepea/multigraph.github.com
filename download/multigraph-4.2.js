@@ -1,3 +1,4 @@
+/*multigraph-4.2.js*/
 if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
         "use strict";
@@ -22036,3 +22037,5 @@ window.multigraph.util.namespace("window.multigraph.graphics.canvas", function (
 
 });
 
+
+;window.multigraph.version="4.2";window.multigraph.file="multigraph-4.2.js";
