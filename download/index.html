@@ -4,7 +4,34 @@ download: selected
 layout: master
 ---
 
+<script type="text/javascript">
+$(document).ready(function() {
+    $.ajax({
+        url: "/download/releases.json",
+        dataType: "json",
+        success: function(releases) {
+
+            $("table.release-table tr.release").remove();
+            releases.forEach(function(release) {
+                $("table.release-table").append(
+                    $(sprintf("<tr class='release'><td>%s</td><td>%s</td><td class='notes'><a href='%s'>Read</a></td><td><a href='/download/%s'>%s</a></td></tr>",
+                              release.number, release.date, release.notes, release.js, release.js))
+                );
+            });
+
+            $(".latest-version-number").text(releases[0].number);
+            $(".latest-version-date").text(releases[0].date);
+
+        },
+        error : function (jqXHR, textStatus, errorThrown) {
+            console.log('got an error instead of any releases');
+        }
+    });
+});
+</script>
+
         <h2>Download Multigraph</h2>
+<p>The most recent release of Multigraph is version <span class="latest-version-number"></span>, released <span class="latest-version-date"></span>.</p>
         <p>Here you may download the file(s) that add Multigraph support to your site. If you do not want to host these files locally, you may simply include them as explained on our <a href="/docs/integrate">integration page</a>.</p>
 
             <a class="btn btn-primary btn-sm" href="multigraph-min.js"><i class="fa fa-download"></i> multigraph-min.js</a>
@@ -17,66 +44,7 @@ layout: master
                 <th>Version</th>
                 <th>Date Released</th>
                 <th>Release Notes</th>
-            </tr>
-            <tr>
-                <td>5.0.1</td>
-                <td>2015-03-06 17:03:48 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-5.0.1.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.3rc1</td>
-                <td>2014-04-22 13:06:40 -0400</td>
-                <td class='notes'><a href='ReleaseNotes-4.3rc1.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.2</td>
-                <td>2013-04-08 17:01:06 -0400</td>
-                <td class='notes'><a href='ReleaseNotes-4.2.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.1</td>
-                <td>2013-03-21 16:39:46 -0400</td>
-                <td class='notes'><a href='ReleaseNotes-4.1.html'>Read</a></td>            </td>
-            </tr>
-            <tr>
-                <td>4.0</td>
-                <td>2013-01-03 00:17:07 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc7</td>
-                <td>2012-12-20 17:34:01 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc7.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc6</td>
-                <td>2012-12-20 16:19:35 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc6.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc5</td>
-                <td>2012-12-12 14:51:09 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc5.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc4</td>
-                <td>2012-12-11 20:12:22 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc4.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc3</td>
-                <td>2012-12-10 23:09:31 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc3.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc2</td>
-                <td>2012-12-06 22:18:20 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc2.html'>Read</a></td>
-            </tr>
-            <tr>
-                <td>4.0rc1</td>
-                <td>2012-12-06 17:36:24 -0500</td>
-                <td class='notes'><a href='ReleaseNotes-4.0rc1.html'>Read</a></td>
+                <th>Download</th>
             </tr>
             </table>
 

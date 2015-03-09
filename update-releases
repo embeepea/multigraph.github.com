@@ -69,6 +69,10 @@ message("building list of release tags");
 open(TAGS, "(cd lib/js-multigraph ; ./tags) |");
 while (chomp(my $line = <TAGS>)) {
     if ( ($tag, $date) = ($line =~ m|\s*(\S+)\s+(.*)$|) ) {
+        $tag =~ s/^\s+//;
+        $tag =~ s/\s+$//;
+        $date =~ s/^\s+//;
+        $date =~ s/\s+$//;
         push(@releases, { 'tag' => $tag, 'date' => $date });
     }
 }
@@ -79,6 +83,21 @@ close(TAGS);
 #
 @releases = sort { $b->{date} cmp $a->{date} } @releases;
 
+
+
+@rs = ();
+foreach my $release (@releases) {
+    $release_tag    = $release->{tag};
+    $release_date   = $release->{date};
+    $release_number = $release_tag;
+    $release_number =~ s/^v//;
+    push(@rs, sprintf('{"number":"%s","date":"%s","notes":"%s","js":"%s"}',
+                      $release_number, $release_date, "ReleaseNotes-${release_number}.md", "multigraph-${release_number}.js"));
+}
+
+open(OUT, ">download/releases.json");
+printf(OUT "[%s]", join(",", @rs));
+close(OUT);
 
 #
 # copy built js files, and ReleaseNotes files, for each release, from js-multigraph to downloads
