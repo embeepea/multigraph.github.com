@@ -218,10 +218,37 @@ sys("cp lib/js-multigraph/mugl-schema/mugl.xsd docs");
 # copy the LICENSE.txt file for this release into place
 #
 message("copying LICENSE.txt file");
-if (-f "lib/js-multigraph/LICENSE.txt") {
-    sys("cp lib/js-multigraph/LICENSE.txt _includes");
+if (-f "/tmp/LICENSE.txt") {
+    open(OUT, ">docs/license.html");
+    print OUT <<EOF
+---
+title: License
+other: selected
+license: selected
+permalink: /docs/license/
+layout: master
+---
+<h3>License</h3>
+<p>Multigraph is free software; you may use it under the terms of the MIT License:</p>
+<pre><code>
+EOF
+    ;
+
+    open(IN, "</tmp/LICENSE.txt");
+    while (<IN>) {
+        print OUT $_;
+    }
+    close(IN);
+
+    print OUT <<EOF
+    </code>
+</pre>
+<p><a href="http://en.wikipedia.org/wiki/MIT_license">More information about the MIT License</a></p>
+EOF
+    ;
+    close(OUT);
 } else {
-    sys("cp /tmp/LICENSE.txt _includes");
+    message("WARNING: could not find license file");
 }
 
 #
