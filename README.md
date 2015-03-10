@@ -71,11 +71,12 @@ server address is '0.0.0.0'.)
 
 If you leave this `jekyll serve` process running, then whenever you
 make a change to any of the site files, jekyll will regenerate
-the necessary files in the `_site` directory automatically.
+the necessary files in the `_site` directory automatically, and you
+can see the changes immediately by simply refreshing your browser window.
 
 Note that you should not directly work with the files in
 the `_site`directory, and you should definitely not commit these
-files to the repository. This directory is simply where your local
+files to the repository. This directory is simply where the local
 jekyll process writes the files that it generates.  When you push
 your changes to github, the jekyll process there generates its
 own copy of the pages in a different location.

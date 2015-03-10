@@ -43,10 +43,8 @@ if (! `which git`) {
 #
 # make sure js-multigraph repo in lib/js-multigraph has latest commits
 #
-#message("updating lib/js-multigraph with the latest commits");
-#
-message("NOT!!!   updating lib/js-multigraph with the latest commits");
-#sys("(cd lib/js-multigraph ; git checkout master; git pull )");
+message("updating lib/js-multigraph with the latest commits");
+sys("(cd lib/js-multigraph ; git checkout master; git pull )");
 
 #
 # save copy of LICENSE.txt file from HEAD of master, just in case most

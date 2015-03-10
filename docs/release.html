@@ -15,7 +15,7 @@ layout: master
             <li>make sure your copy of the js-multigraph repo is up to date with the latest commits, or, if you want to create a release that is not at the head of the master branch, that it is positioned at the commit where you want to create the release</li>
             <li>make sure that any submodules (jermaine, error-display) are present in your js-multigraph and positioned at the correct commit for the release</li>
             <li>run all jasmine tests</li>
-            <li>view all graphics tests</li>
+            <li>view all graph tests</li>
         </ul>
         </li>
 
@@ -39,11 +39,19 @@ layout: master
         </li>
 
         <li>
-            <p>Run 'ant minify' to rebuild the built versions of Multigraph in the project; commit the results.</p>
+            <p>Run 'npm run build-graph-tests' to rebuild the spec/graphs/graphs.json file that contains the example metadata used on the web site.</p>
 
-            <pre> ant minify
+            <pre> npm run build-graph-tests
+ git add spec
+ git commit -m 'runs `npm run build-graph-tests`'</pre>
+        </li>
+
+        <li>
+            <p>Run 'npm run build-all' to rebuild the built versions of Multigraph in the project; commit the results.</p>
+
+            <pre> npm run build-all
  git add build
- git commit -m 'runs ant minify'</pre>
+ git commit -m 'runs `npm run build-all`'</pre>
         </li>
 
         <li>
@@ -60,21 +68,20 @@ layout: master
         </li>
 
         <li>
-            <p>In the multigraph.github.io repo, run the <code>update-releases</code> script</p>
+            <p>In the multigraph.github.com repo, run the <code>update-site</code> script</p>
 
-            <pre> cd multigraph-github.io
- ./update-releases</pre>
+            <pre> ./update-site</pre>
 
-            <p>This script updates the files in the 'download' directory by creating new ones called multigraph-4.1.js and multigraph-min-4.1.js, and copies of them called 'multigraph.js' and 'multigraph-min.js'. It also creates downloads/ReleaseNotes-4.1.md by copying ReleaseNotes.md file from the v4.1 tag, and updates various pages on the site with links to these files.</p>
+            <p>This script updates various files in the multigraph.github.com by copying content from the lib/js-multigraph submodule.</p>
 
-            <p>Note that <code>update-releases</code> takes care of updating the lib/js-multigraph submodule of multigraph.github.io, including leaving it in a state with the latest release checked out.</p>
+            <p>Note that <code>update-site</code> takes care of updating the lib/js-multigraph submodule of multigraph.github.com, including leaving it in a state with the latest release checked out.</p>
         </li>
 
         <li>
             <p>Preview the web site by running jekyll locally. Be sure to especially check the downloads page.</p>
 
-            <pre> jekyll --server
- browse to http://0.0.0.0:4000</pre>
+            <pre> jekyll serve
+ browse to <a href="http://localhost:4000">http://localhost:4000</a></pre>
         </li>
 
         <li>
@@ -92,7 +99,7 @@ layout: master
 
     <h3>Flagging a Release as Bad</h3>
 
-    <p>This process keeps the release tag in the repository, so there is still a record of it, but removes mention of that release from the web site, and prevents the <code>update-releases</code> script from ever including it again.</p>
+    <p>This process keeps the release tag in the repository, so there is still a record of it, but removes mention of that release from the web site, and prevents the <code>update-site</code> script from ever including it again.</p>
 
     <ol>
         <li>
@@ -106,18 +113,18 @@ layout: master
         </li>
 
         <li>
-            <p>In the multigraph.github.io repo, delete the download files associated with the bad release, and re-run the <code>update-releases</code> script.</p>
+            <p>In the multigraph.github.com repo, delete the download files associated with the bad release, and re-run the <code>update-site</code> script.</p>
 
             <pre> cd multigraph-github.io
  git rm download/*-4.1.*
- ./update-releases</pre>
+ ./update-site</pre>
         </li>
 
         <li>
             <p>Preview the web site by running jekyll locally. Be sure to especially check the downloads page.</p>
 
-            <pre> jekyll --server
- browse to http://0.0.0.0:4000</pre>
+            <pre> jekyll serve
+ browse to <a href="http://localhost:4000">http://localhost:4000</a></pre>
         </li>
 
         <li>
@@ -143,18 +150,18 @@ layout: master
         </li>
 
         <li>
-            <p>In the multigraph.github.io repo, delete the download files associated with the deleted release, and re-run the <code>update-releases</code> script.</p>
+            <p>In the multigraph.github.com repo, delete the download files associated with the deleted release, and re-run the <code>update-site</code> script.</p>
 
             <pre> cd multigraph-github.io
  git rm download/*-4.1.*
- ./update-releases</pre>
+ ./update-site</pre>
         </li>
 
         <li>
             <p>Preview the web site by running jekyll locally. Be sure to especially check the downloads page.</p>
 
-            <pre> jekyll --server
- browse to http://0.0.0.0:4000</pre>
+            <pre> jekyll serve
+              browse to <a href="http://localhost:4000">http://localhost:4000</a></pre>
         </li>
 
         <li>
