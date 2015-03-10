@@ -17,7 +17,7 @@ $(document).ready(function() {
                     $(("<tr class='release'>"
                       + sprintf("<td>%s</td>", release.number)
                       + sprintf("<td>%s</td>", release.date)
-                      + sprintf("<td class='notes'><a href='%s'>Read</a></td>", release.notes)
+                      + sprintf("<td class='notes'><a href='%s'>Read</a></td>", release.notes.replace(/\.md$/, '.html'))
                       + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download_min,release.download_min)
                       + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download,release.download)
                       + sprintf("<td><a href='/download/%s'>%s</a></td>", release.download_nojq_min,release.download_nojq_min)
