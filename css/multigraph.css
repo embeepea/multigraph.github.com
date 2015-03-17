@@ -231,10 +231,12 @@ table.release-table tr:nth-of-type(even) {
     height: 400px;
     float: left;
 }
-.example-graph div {
+
+div.example-graph-container {
     width: 100%;
     height: 100%;
 }
+
 .example-download {
     float: left;
 }

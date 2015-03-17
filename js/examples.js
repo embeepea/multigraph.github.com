@@ -36,8 +36,8 @@ $(document).ready(function() {
     function render_graph(graphs, n) {
         var mugl_url = "/examples/graphs/" + graphs[n].mugl;
         $("div.example-graph").empty();
-        $("div.example-graph").append($("<div>"));
-        window.multigraph.jQuery("div.example-graph div").multigraph({
+        $("div.example-graph").append($("<div class='example-graph-container'>"));
+        window.multigraph.jQuery("div.example-graph div.example-graph-container").multigraph({
             'mugl' : mugl_url
         });
         window.history.replaceState({}, "", "./?graph="+graph_basename(graphs[n].mugl));
